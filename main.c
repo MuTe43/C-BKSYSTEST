@@ -6,14 +6,20 @@
 
 
 acczeb* createacc(char nam[10]){
+    FILE* facc;
     acczeb* acc=(acczeb*)malloc(sizeof(acczeb));
     if (acc == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
     strncpy(acc->name, nam, sizeof(acc->name) - 1);
-    acc->name[sizeof(acc->name) - 1] = '\0';
+    acc->name[sizeof(acc->name) - 1] = nam;
     acc->balance=0;
+    facc= fopen("acc.txt","w");
+    fprintf(facc, "Name: %s\n", acc->name);
+    fprintf(facc, "Balance: %d\n", acc->balance);
+    fflush(facc);
+    fclose(facc);
     return acc;
 }
 void print_balance(acczeb* acc,char nam[10]) {
