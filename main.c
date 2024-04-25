@@ -13,12 +13,12 @@ acczeb* createacc(char nam[10]){
         exit(EXIT_FAILURE);
     }
     strncpy(acc->name, nam, sizeof(acc->name) - 1);
-    acc->name[sizeof(acc->name) - 1] = nam;
+    acc->name[sizeof(acc->name) - 1] = '\0';
     acc->balance=0;
-    facc= fopen("acc.txt","w");
+    printf("Account name: '%s'\n", acc->name);
+    facc= fopen("acc.txt","a");
     fprintf(facc, "Name: %s\n", acc->name);
     fprintf(facc, "Balance: %d\n", acc->balance);
-    fflush(facc);
     fclose(facc);
     return acc;
 }
@@ -55,12 +55,13 @@ void main(){
     switch(x){
         case 1:
             printf("enter ur characters name\n");
-            scanf(" enter the account name %c",&nam);
+            scanf("%s",&nam);
             createacc(nam);
             break;
         case 2:
-            scanf(" enter the account name %c",&nam);
+            scanf("%s",&nam);
             print_balance(acc,nam);
-
+            break;
+    free(acc);
     }
 }
