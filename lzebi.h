@@ -7,7 +7,7 @@ struct acczeb {
 };
 typedef struct acczeb acczeb;
 struct acczeb* createacc(char name[10]);
-void print_balance(acczeb* acc);
+void print_balance(acczeb* acc,char nam[10]);
 void deposit(acczeb* acc, int balance);
 
 void withdraw(acczeb* acc, int balance);

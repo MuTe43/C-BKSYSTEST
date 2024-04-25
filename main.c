@@ -25,7 +25,8 @@ acczeb* createacc(char nam[10]){
     acc->balance=0;
     return acc;
 }
-void print_balance(acczeb* acc) {
+void print_balance(acczeb* acc,char nam[10]) {
+    strncpy(acc->name, nam, sizeof(acc->name) - 1);
     if (acc == NULL) {
         fprintf(stderr, "Invalid account pointer.\n");
         return;
@@ -47,6 +48,7 @@ void delacc(acczeb* acc){
 void main(){
     int x,balance;
     char nam[10];
+    acczeb* acc = createacc('abc');
     printf("hello your at the bank ATM choose ur option\n");
     printf("press 1 if you want to create account : \n");
     printf("press 2 if you want to create account : ");
@@ -59,7 +61,7 @@ void main(){
             break;
         case 2:
             scanf(" enter the account name %c",&nam);
-            print_balance(acc.nam);
+            print_balance(acc,nam);
 
     }
 }
