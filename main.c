@@ -5,7 +5,7 @@
 
 
 
-acczeb* createacc(char nam[10]){
+acczeb* createacc(char nam[10],int balance){
     FILE* facc;
     acczeb* acc=(acczeb*)malloc(sizeof(acczeb));
     if (acc == NULL) {
@@ -14,7 +14,7 @@ acczeb* createacc(char nam[10]){
     }
     strncpy(acc->name, nam, sizeof(acc->name) - 1);
     acc->name[sizeof(acc->name) - 1] = '\0';
-    acc->balance=0;
+    acc->balance=balance;
     printf("Account name: '%s'\n", acc->name);
     facc= fopen("acc.txt","a");
     fprintf(facc, "Name: %s\n", acc->name);
@@ -56,7 +56,8 @@ void main(){
         case 1:
             printf("enter ur characters name\n");
             scanf("%s",&nam);
-            createacc(nam);
+            scanf("%d",&balance);
+            createacc(nam,balance);
             break;
         case 2:
             scanf("%s",&nam);
