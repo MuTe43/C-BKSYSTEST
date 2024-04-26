@@ -12,7 +12,7 @@ acczeb* createacc(char nam[10],int balance){
         fprintf(stderr, "Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
-    strncpy(acc->name, nam, sizeof(acc->name) - 1);
+    memmove(acc->name, nam, sizeof(acc->name) - 1);
     acc->name[sizeof(acc->name) - 1] = '\0';
     acc->balance=balance;
     printf("Account name: '%s'\n", acc->name);
