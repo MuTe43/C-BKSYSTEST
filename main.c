@@ -3,23 +3,35 @@
 #include <string.h>
 #include "lzebi.h"
 
+int searchnam(char nam[10]){
+    FILE* file;
+    file= fopen("acc.txt","r");
+    char line[11];
+    while(!feof(file)){
+        fgets(line,sizeof(line),file);
+        if (strstr(line, nam)) return 1;
+        else return 0;
+    }
+    fclose(file);
+}
+
 
 
 acczeb* createacc(char nam[10],int balance){
-    FILE* facc;
+    FILE* facc; //creating the file :)
     acczeb* acc=(acczeb*)malloc(sizeof(acczeb));
     if (acc == NULL) {
         fprintf(stderr, "Memory allocation failed.\n");
         exit(EXIT_FAILURE);
     }
-    memmove(acc->name, nam, sizeof(acc->name) - 1);
+    memmove(acc->name, nam, sizeof(acc->name) - 1); // memmove is safer than strncpy (avoids buffer overflow)
     acc->name[sizeof(acc->name) - 1] = '\0';
     acc->balance=balance;
     printf("Account name: '%s'\n", acc->name);
-    facc= fopen("acc.txt","a");
-    fprintf(facc, "Name: %s\n", acc->name);
-    fprintf(facc, "Balance: %d\n", acc->balance);
-    fclose(facc);
+    facc= fopen("acc.txt","a"); //file open :)
+    fprintf(facc, "Name: %s\n", acc->name); //file print name
+    fprintf(facc, "Balance: %d\n", acc->balance); //file print balance
+    fclose(facc); //closing the shit show :D
     return acc;
 }
 void print_balance(acczeb* acc,char nam[10]) {
@@ -56,8 +68,11 @@ void main(){
         case 1:
             printf("enter ur characters name\n");
             scanf("%s",&nam);
+            if (searchnam(nam)==1) printf("account exists");
+            else{
             scanf("%d",&balance);
             createacc(nam,balance);
+            }
             break;
         case 2:
             scanf("%s",&nam);
