@@ -6,13 +6,14 @@
 int searchnam(char nam[10]){
     FILE* file;
     file= fopen("acc.txt","r");
-    if (file=NULL){
+    char line[20];
+    if (file==NULL){
         perror("empty file");
         exit(EXIT_FAILURE);
     }
-    char line[20];
     while(fgets(line, sizeof(line), file)){
-        if (strstr(line, nam)){
+        line[strcspn(line, "\n")] = '\0';
+        if (strstr(line, nam) && strlen(nam)>=2){
             fclose(file);
             return 1;
         }
