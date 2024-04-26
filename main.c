@@ -6,13 +6,19 @@
 int searchnam(char nam[10]){
     FILE* file;
     file= fopen("acc.txt","r");
-    char line[11];
-    while(!feof(file)){
-        fgets(line,sizeof(line),file);
-        if (strstr(line, nam)) return 1;
-        else return 0;
+    if (file=NULL){
+        perror("empty file");
+        exit(EXIT_FAILURE);
+    }
+    char line[20];
+    while(fgets(line, sizeof(line), file)){
+        if (strstr(line, nam)){
+            fclose(file);
+            return 1;
+        }
     }
     fclose(file);
+    return 0;
 }
 
 
@@ -56,7 +62,7 @@ void delacc(acczeb* acc){
 void main(){
     int x,balance;
     char nam[10];
-    acczeb* acc = {'abs',0};
+    acczeb* acc = NULL;
     printf("hello your at the bank ATM choose ur option\n");
 
     printf("press 1 if you want to create account : \n");
@@ -67,11 +73,11 @@ void main(){
     switch(x){
         case 1:
             printf("enter ur characters name\n");
-            scanf("%s",&nam);
-            if (searchnam(nam)==1) printf("account exists");
+            scanf("%s",nam);
+            if (searchnam(nam)==1){printf("account exists");}
             else{
             scanf("%d",&balance);
-            createacc(nam,balance);
+            acc = createacc(nam,balance);
             }
             break;
         case 2:
