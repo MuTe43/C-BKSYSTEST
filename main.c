@@ -6,14 +6,16 @@
 int searchnam(char nam[10]){
     FILE* file;
     file= fopen("acc.txt","r");
-    char line[20];
+    char nom[10] = "Name: ";  // this is a work around because I'm lazy
+    char line[50];
+    strcat(nom,nam);  // Added this as a way to not confuse the strstr method ( let's say abc is acc, a will return acc exists without this)
     if (file==NULL){
         perror("empty file");
         exit(EXIT_FAILURE);
     }
     while(fgets(line, sizeof(line), file)){
         line[strcspn(line, "\n")] = '\0';
-        if (strstr(line, nam) && strlen(nam)>=2){
+        if (strstr(line, nom) && strcmp(line, nom)==0){
             fclose(file);
             return 1;
         }
