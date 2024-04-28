@@ -1,3 +1,0 @@
-
-Name: abc
-Balance: 5000

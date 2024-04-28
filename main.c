@@ -86,13 +86,43 @@ void print_balance(char nam[10]) {
     }
 }
 
-/*void deposit(char nam[10],int balance){
-    searchbal(nam)+balance;
+void deposit(char nam[10], int balance) {
+    if (searchnam(nam) == 0) {
+        printf("Account not found\n");
+        return;
+    }
+    
+    FILE* file = fopen("acc.txt", "r+");
+    if (file == NULL) {
+        perror("Empty file");
+        exit(EXIT_FAILURE);
+    }
+
+    char nom[20] = "Name: ";
+    strcat(nom, nam);
+
+    char line[50];
+    while (fgets(line, sizeof(line), file)) {
+        line[strcspn(line, "\n")] = '\0'; 
+        if (strstr(line, nom) && strcmp(line, nom) == 0) {
+            fgets(line, sizeof(line), file);
+            int currbal = searchbal(nam);
+            int newbal = currbal + balance;
+
+            // Move the file pointer to the beginning of the balance line
+            fseek(file, -strlen(line)-1, SEEK_CUR);
+
+            // Write the new balance to the file including the prefix "Balance: "
+            fprintf(file, "Balance: %d\n", newbal);
+            break;
+        }
+    }
+    fclose(file);
 }
 
 void withdraw(char nam[10], int balance){
-    searchbal(nam)+balance;
-}*/
+    deposit(nam,-balance); //just call the deposit function with a negative argument
+}
 
 void delacc(acczeb* acc){
     free(acc);
@@ -105,7 +135,11 @@ void main(){
 
     printf("press 1 if you want to create account : \n");
 
-    printf("press 2 if you want to create account : ");
+    printf("press 2 if you want to see your account's balance : \n");
+
+    printf("press 3 if you want to deposit money into your account : \n");
+
+    printf("press 4 if you want to withdraw money into your account : \n");
 
     scanf("%d",&x);
     switch(x){
@@ -125,6 +159,14 @@ void main(){
             scanf("%s",&nam);
             print_balance(nam);
             break;
-    free(acc);
+        case 3:
+            scanf("%s",&nam);
+            scanf("%d",&balance);
+            deposit(nam,balance);
+        case 4:
+            scanf("%s",&nam);
+            scanf("%d",&balance);
+            withdraw(nam,balance);        
+    delacc(acc);
     }
 }
