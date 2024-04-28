@@ -1,5 +1,4 @@
 # C-BKSYSTEST
 Some Bankin System made in C cuz I'm bored
 
-# Current goals:
-remove depending on allocated mem, I can use some File handling to check if accs exist and change balance etc....
+This mini project cost me about 3 to 4 hours total to make, repetetive code blocks yes, but I was bored maaaan aw hell naw....
