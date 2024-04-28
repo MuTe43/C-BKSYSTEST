@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lzebi.h"
+#include "headhhXD.h"
 
 
 /*void filehandle(char mode){
@@ -77,7 +77,7 @@ acczeb* createacc(char nam[10],int balance){
     return acc;
 }
 void print_balance(char nam[10]) {
-    if (searchnam(nam) == NULL) {
+    if (searchnam(nam) == 0) {
         fprintf(stderr, "Invalid account pointer.\n");
         return;
     }
@@ -163,10 +163,12 @@ void main(){
             scanf("%s",&nam);
             scanf("%d",&balance);
             deposit(nam,balance);
+            break;
         case 4:
             scanf("%s",&nam);
             scanf("%d",&balance);
-            withdraw(nam,balance);        
+            withdraw(nam,balance);
+            break;        
     delacc(acc);
     }
 }
