@@ -3,19 +3,29 @@
 #include <string.h>
 #include "lzebi.h"
 
+
+/*void filehandle(char mode){
+    FILE* file;
+    file= fopen("acc.txt",mode);
+    if (file==NULL){
+        perror("empty fag");
+        exit(EXIT_FAILURE);
+    }
+} idk seems unoptimal might do it later*/
+
 int searchnam(char nam[10]){
     FILE* file;
     file= fopen("acc.txt","r");
     char nom[10] = "Name: ";  // this is a work around because I'm lazy
     char line[50];
     strcat(nom,nam);  // Added this as a way to not confuse the strstr method ( let's say abc is acc, a will return acc exists without this)
-    if (file==NULL){
+    if (file==NULL){    //strcat function stores "Name: + nam" into nom :)
         perror("empty file");
         exit(EXIT_FAILURE);
     }
     while(fgets(line, sizeof(line), file)){
-        line[strcspn(line, "\n")] = '\0';
-        if (strstr(line, nom) && strcmp(line, nom)==0){
+        line[strcspn(line, "\n")] = '\0'; //removes the \n from the line so it compares successfully
+        if (strstr(line, nom) && strcmp(line, nom)==0){ //idk we can put only strcmp in here but whatever.
             fclose(file);
             return 1;
         }
@@ -24,6 +34,29 @@ int searchnam(char nam[10]){
     return 0;
 }
 
+
+int searchbal(char nam[10]){
+    FILE* file;
+    file= fopen("acc.txt","r");
+    char nom[10] = "Name: ";  
+    char line[50];
+    int balance;
+    strcat(nom,nam);  
+    if (file==NULL){    
+        perror("empty file");
+        exit(EXIT_FAILURE);
+    }
+    while(fgets(line, sizeof(line), file)){ //keeps skipping lines until the while loop fullfills
+        line[strcspn(line, "\n")] = '\0'; 
+        if (strstr(line, nom) && strcmp(line, nom)==0){ //here we check if the account name we're looking for is in this line
+            fgets(line, sizeof(line), file);    //here we go down a line to the balance line
+            sscanf(line, "Balance: %d", &balance); //we scan the number after 'Balance: '
+            break;
+        }
+    }
+    fclose(file);
+    return balance;
+}
 
 
 acczeb* createacc(char nam[10],int balance){
@@ -43,21 +76,23 @@ acczeb* createacc(char nam[10],int balance){
     fclose(facc); //closing the shit show :D
     return acc;
 }
-void print_balance(acczeb* acc,char nam[10]) {
-    if (acc == NULL) {
+void print_balance(char nam[10]) {
+    if (searchnam(nam) == NULL) {
         fprintf(stderr, "Invalid account pointer.\n");
         return;
     }
-    printf("Balance of account '%s': %d\n", acc->name, acc->balance);
+    else{
+        printf("Account balance is: %d", searchbal(nam));
+    }
 }
 
-void deposit(acczeb* acc,int balance){
-    acc->balance+=balance;
+/*void deposit(char nam[10],int balance){
+    searchbal(nam)+balance;
 }
 
-void withdraw(acczeb* acc, int balance){
-    acc->balance-=balance;
-}
+void withdraw(char nam[10], int balance){
+    searchbal(nam)+balance;
+}*/
 
 void delacc(acczeb* acc){
     free(acc);
@@ -77,7 +112,10 @@ void main(){
         case 1:
             printf("enter ur characters name\n");
             scanf("%s",nam);
-            if (searchnam(nam)==1){printf("account exists");}
+            if (searchnam(nam)==1){
+                printf("account exists\n");
+                searchbal(nam);
+            }
             else{
             scanf("%d",&balance);
             acc = createacc(nam,balance);
@@ -85,7 +123,7 @@ void main(){
             break;
         case 2:
             scanf("%s",&nam);
-            print_balance(acc,nam);
+            print_balance(nam);
             break;
     free(acc);
     }

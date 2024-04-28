@@ -1,20 +1,3 @@
-Name: a
-Balance: 0
+
 Name: abc
-Balance: 0
-Name: abc
-Balance: 0
-Name: abc
-Balance: 0
-Name: abc
-Balance: 0
-Name: a
-Balance: 0
-Name: b
-Balance: 0
-Name: ab
-Balance: 0
-Name: abd
-Balance: 0
-Name: c
-Balance: 0
+Balance: 5000
